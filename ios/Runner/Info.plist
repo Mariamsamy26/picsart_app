@@ -3,6 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
+
+	<key>NSCameraUsageDescription</key>
+    <string>We need access to your camera to take photos.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to your photo library to select photos.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>We need access to your microphone for recording videos.</string>
+
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
 	<string>Picsart</string>
