@@ -132,11 +132,12 @@ class ImgProvider extends ChangeNotifier {
 
     if (images.isNotEmpty) {
       imagePathCollage =
-          List<XFile>.from(images);
+      List<XFile>.from(images);
       notifyListeners();
       navigator.NavigateToPhoto();
     }
   }
+
   Future<void> pickImageGalleryCollage(BuildContext context) async {
     final permissionsGranted = await requestPermissions();
     if (!permissionsGranted) {
@@ -144,41 +145,38 @@ class ImgProvider extends ChangeNotifier {
       return;
     }
     images.clear();
-
+    // Navigator.of(context).popUntil((route) => route.isFirst);
 
     try {
       final resultList = await MultiImagePicker.pickImages();
       if (resultList == null || resultList.isEmpty) return;
 
       for (var asset in resultList) {
-        Navigator.of(context).popUntil((route) => route.isFirst);
+
         final byteData = await asset.getByteData();
         final file = File('${Directory.systemTemp.path}/${asset.name}');
         await file.writeAsBytes(byteData.buffer.asUint8List());
-
         final extension = file.path.split('.').last.toLowerCase();
         if (extension == 'gif') {
           showGifNotAllowedGIF(context);
           return;
         }
+        Navigator.of(context).popUntil((route) => route.isFirst);
         images.add(XFile(file.path));
-      }
-
-      if (images.isNotEmpty) {
-        imagePathCollage = List<XFile>.from(images);
-        notifyListeners();
-
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => CollageScreen(),
           ),
         );
       }
+      if (images.isNotEmpty) {
+        imagePathCollage = List<XFile>.from(images);
+        notifyListeners();
+      }
     } on Exception catch (e) {
       print('Failed to pick images: $e');
     }
   }
-
 
   void showGifNotAllowedGIF(BuildContext context) {
     showDialog(
