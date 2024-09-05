@@ -106,9 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                             onPressedGallary: () {
                               pro.pickImageGalleryCollage(context);
-                              pro.pickImageGalleryCollage(context);
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (C) => CollageScreen()));
+
                             },
                           ));
                 },

@@ -144,13 +144,14 @@ class ImgProvider extends ChangeNotifier {
       return;
     }
     images.clear();
-    Navigator.of(context).popUntil((route) => route.isFirst);
+
 
     try {
       final resultList = await MultiImagePicker.pickImages();
       if (resultList == null || resultList.isEmpty) return;
 
       for (var asset in resultList) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
         final byteData = await asset.getByteData();
         final file = File('${Directory.systemTemp.path}/${asset.name}');
         await file.writeAsBytes(byteData.buffer.asUint8List());
