@@ -25,6 +25,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var pro = Provider.of<ImgProvider>(context);
+    List<Map> pickImage = [
+      {
+        "Camera": pro.pickImageCamera(context),
+        "Gallery": pro.pickImageGallery(context)
+      },
+      {
+        "Camera": pro.pickImageCameraCollage(context),
+        "Gallery": pro.pickImageGalleryCollage(context)
+      },
+    ];
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -72,45 +82,28 @@ class _HomeScreenState extends State<HomeScreen> {
                   setState(() {});
                 },
               ), //cancel
-              CustomElevatedButton(
-                width: 250,
-                colorBorder: Colors.black38,
-                colorButton: Color.fromRGBO(0, 0, 0, 0.8),
-                colorText: ColorManager.colorWhit,
-                text: 'Take to backgrount',
-                OnPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) => CustemshowDialog(
-                            onPressedCamera: () {
-                              pro.pickImageCamera(context);
-                            },
-                            onPressedGallary: () {
-                              pro.pickImageGallery(context);
-                            },
-                          ));
-                },
-              ), //backgrount
-              CustomElevatedButton(
-                width: 250,
-                colorBorder: Colors.black38,
-                colorButton: Color.fromRGBO(0, 0, 0, 0.8),
-                colorText: ColorManager.colorWhit,
-                text: 'Take imgs to collage',
-                OnPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) => CustemshowDialog(
-                            onPressedCamera: () {
-                              pro.pickImageCameraCollage(context);
-                            },
-                            onPressedGallary: () {
-                              pro.pickImageGalleryCollage(context);
 
-                            },
-                          ));
-                },
-              ), //Collage
+              for (int m = 0; m < pickImage.length; m++)
+                CustomElevatedButton(
+                  width: 250,
+                  colorBorder: Colors.black38,
+                  colorButton: Color.fromRGBO(0, 0, 0, 0.8),
+                  colorText: ColorManager.colorWhit,
+                  text: 'Take to backgrount',
+                  OnPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => CustemshowDialog(
+                              onPressedCamera: () {
+                                pickImage[m]['Camera'];
+                              },
+                              onPressedGallary: () {
+                                pickImage[m]['Gallary'];
+                              },
+                            ));
+                  },
+                ), //backgrount
+              //Collage
             ],
           ),
         ),
