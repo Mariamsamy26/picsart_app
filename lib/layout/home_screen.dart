@@ -5,36 +5,21 @@ import 'package:picsart/shared/style/color_manager.dart';
 import 'package:provider/provider.dart';
 import '../Providers/img_Providers.dart';
 import 'dart:io' as io;
-
 import '../shared/components/Custem_showDialog.dart';
 import 'collageScreen.dart';
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     var pro = Provider.of<ImgProvider>(context);
-    List<Map> pickImage = [
-      {
-        "Camera": pro.pickImageCamera(context),
-        "Gallery": pro.pickImageGallery(context)
-      },
-      {
-        "Camera": pro.pickImageCameraCollage(context),
-        "Gallery": pro.pickImageGalleryCollage(context)
-      },
-    ];
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -50,19 +35,19 @@ class _HomeScreenState extends State<HomeScreen> {
         decoration: BoxDecoration(
           image: pro.imagePath != null
               ? DecorationImage(
-                  image: FileImage(io.File(pro.imagePath!.path)),
-                  fit: BoxFit.cover,
-                )
+            image: FileImage(io.File(pro.imagePath!.path)),
+            fit: BoxFit.cover,
+          )
               : null,
           gradient: pro.imagePath == null
               ? LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.pink,
-                    Colors.blueGrey,
-                  ],
-                )
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.pink,
+              Colors.blueGrey,
+            ],
+          )
               : null,
         ),
         child: Padding(
@@ -82,35 +67,56 @@ class _HomeScreenState extends State<HomeScreen> {
                   setState(() {});
                 },
               ), //cancel
+              CustomElevatedButton(
+                width: 250,
+                colorBorder: Colors.black38,
+                colorButton: Color.fromRGBO(0, 0, 0, 0.8),
+                colorText: ColorManager.colorWhit,
+                text: 'Take to backgrount',
+                OnPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => CustemshowDialog(
+                        onPressedCamera: () {
+                          pro.pickImageCamera(context);
+                        },
+                        onPressedGallary: () {
+                          pro.pickImageGallery(context);
+                        },
+                      ));
+                },
+              ), //backgrount
+              CustomElevatedButton(
+                width: 250,
+                colorBorder: Colors.black38,
+                colorButton: Color.fromRGBO(0, 0, 0, 0.8),
+                colorText: ColorManager.colorWhit,
+                text: 'Take imgs to collage',
+                OnPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => CustemshowDialog(
+                        onPressedCamera: () {
+                          pro.pickImageCameraCollage(context);
+                        },
+                        onPressedGallary: () {
+                          pro.pickImageGalleryCollage(context);
+                          // Navigator.of(context).push(
+                          //   MaterialPageRoute(
+                          //     builder: (context) => CollageScreen(),
+                          //   ),
+                          // );
 
-              for (int m = 0; m < pickImage.length; m++)
-                CustomElevatedButton(
-                  width: 250,
-                  colorBorder: Colors.black38,
-                  colorButton: Color.fromRGBO(0, 0, 0, 0.8),
-                  colorText: ColorManager.colorWhit,
-                  text: 'Take to backgrount',
-                  OnPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) => CustemshowDialog(
-                              onPressedCamera: () {
-                                pickImage[m]['Camera'];
-                              },
-                              onPressedGallary: () {
-                                pickImage[m]['Gallary'];
-                              },
-                            ));
-                  },
-                ), //backgrount
-              //Collage
+                        },
+                      ));
+                },
+              ), //Collage
             ],
           ),
         ),
       ),
     );
   }
-
   @override
   void NavigateToPhoto() {
     Navigator.pushNamed(context, CollageScreen.rountName);
