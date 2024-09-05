@@ -20,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var pro = Provider.of<ImgProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -101,12 +102,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         onPressedGallary: () {
                           pro.pickImageGalleryCollage(context);
-                          // Navigator.of(context).push(
-                          //   MaterialPageRoute(
-                          //     builder: (context) => CollageScreen(),
-                          //   ),
-                          // );
-
                         },
                       ));
                 },

@@ -145,7 +145,6 @@ class ImgProvider extends ChangeNotifier {
       return;
     }
     images.clear();
-    // Navigator.of(context).popUntil((route) => route.isFirst);
 
     try {
       final resultList = await MultiImagePicker.pickImages();
